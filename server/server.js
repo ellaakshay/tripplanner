@@ -37,13 +37,19 @@ app.use('/api/geocode', geocodeRouter);
 app.use('/api/places', placesRouter);
 app.use('/api/trips', tripsRouter);
 
-const clientDist = path.resolve(__dirname, '..', 'client', 'dist');
+const clientDist = path.join(__dirname, '..', 'client', 'dist');
+
+console.log('Client dist:', clientDist);
+
 app.use(express.static(clientDist));
-app.get('/', (req, res) => res.sendFile(path.join(clientDist, 'index.html')));
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(clientDist, 'index.html'));
+});
 
 app.use((error, req, res, next) => {
-  console.error(error);
-  res.status(500).json({ error: 'Unexpected server error.' });
+  console.error('SERVER ERROR:', error);
+  next(error);
 });
 
 const server = app.listen(port, async () => {
