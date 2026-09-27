@@ -12,8 +12,20 @@ const tripsRouter = require('./routes/trips');
 
 const app = express();
 const port = process.env.PORT || 5002;
+function parseOrigins(value = '') {
+  return value.split(',').map((entry) => {
+    try {
+      return new URL(entry.trim()).origin;
+    } catch {
+      return null;
+    }
+  }).filter(Boolean);
+}
+
 const allowedOrigins = new Set([
-  process.env.CLIENT_ORIGIN || 'http://localhost:5173',
+  ...parseOrigins(process.env.CLIENT_ORIGIN),
+  ...parseOrigins(process.env.RENDER_EXTERNAL_URL),
+  'https://tripplanner-gmgk.onrender.com',
   'http://localhost:5173',
   'http://localhost:5174',
   `http://localhost:${port}`

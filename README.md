@@ -53,6 +53,8 @@ The LLM API key is read by the server only. The browser sends requests to the lo
 
    The API uses `http://localhost:5002`. Vite normally uses `http://localhost:5173`; if that port is occupied, use the alternate URL printed by Vite.
 
+  On Render, `RENDER_EXTERNAL_URL` is included in the API CORS allowlist automatically. If the frontend is hosted on a different domain, set `CLIENT_ORIGIN` in the Render API service environment to that frontend's origin (for example, `https://your-frontend.onrender.com`). Multiple frontend origins can be separated with commas. Redeploy the API after changing environment variables.
+
 ## Using The Planner
 
 Write the whole request in the trip description field. For example:
